@@ -1,4 +1,4 @@
-# 
+# ###################################
 # Copyright (C) 2018-2024 Ruilin Peng (Nick) <pymumu@gmail.com>.
 #
 # smartdns is free software: you can redistribute it and/or modify
