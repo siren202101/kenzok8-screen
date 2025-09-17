@@ -1,4 +1,4 @@
-# SPDX-License-Identifier: GPL-3.0-or-later####################################################
+# SPDX-License-Identifier: GPL-3.0-or-later
 #
 # Copyright (c) 2018-2023 Nick Peng (pymumu@gmail.com)
 
