@@ -37,7 +37,7 @@ jobs:
 
       - name: Commit and Push changes
         env:
-          GITHUB_TOKEN: ${{ secrets.RELEASES_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           git add luci-app-smartdns smartdns qbittorrent
           if git commit -m "Sync luci-app-smartdns and smartdns from upstream" ; then
