@@ -24,7 +24,7 @@ jobs:
           rm -rf upstream
           git clone --depth=1 --filter=blob:none --sparse https://github.com/kenzok8/small-package.git upstream
           cd upstream
-          git sparse-checkout set luci-app-smartdns smartdns
+          git sparse-checkout set luci-app-smartdns smartdns qbittorrent luci-app-passwall luci-app-passwall2
 
       - name: Copy target directories
         run: |
