@@ -31,6 +31,9 @@ jobs:
           rm -rf luci-app-smartdns smartdns
           cp -r upstream/luci-app-smartdns ./luci-app-smartdns
           cp -r upstream/smartdns ./smartdns
+          cp -r upstream/qbittorrent ./qbittorrent
+          cp -r upstream/luci-app-passwall ./luci-app-passwall
+          cp -r upstream/luci-app-passwall2 ./luci-app-passwall2
 
       - name: Commit and Push changes
         env:
