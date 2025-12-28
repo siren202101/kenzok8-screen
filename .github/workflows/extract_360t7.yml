@@ -1,0 +1,48 @@
+name: 360T7 原厂固件 DDR 提取工具
+
+on:
+  workflow_dispatch:
+    inputs:
+      firmware_url:
+        description: 'https://www.sodatool.com/d/defa889e-ceb7-41f6-ab63-b8e510fbdc4b'
+        required: true
+        default: ''
+
+jobs:
+  extract_job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 检出代码
+        uses: actions/checkout@v3
+
+      - name: 下载远程固件
+        run: |
+          echo "正在下载固件: ${{ github.event.inputs.firmware_url }}"
+          curl -L "${{ github.event.inputs.firmware_url }}" -o full_dump.bin
+          
+      - name: 自动识别并提取 Preloader
+        run: |
+          # 360T7 (MT7981) 的 Preloader 通常位于固件头部 0x0 开始的位置
+          # 我们提取前 256KB，这包含了所有内存训练 (EMI) 参数
+          dd if=full_dump.bin of=preloader_raw.bin bs=1k count=256
+          
+          # 检查 DDR 类型并重命名
+          if grep -q "DDR4" preloader_raw.bin; then
+            echo "检测到 DDR4 类型固件"
+            mv preloader_raw.bin 360T7_Preloader_DDR4.bin
+            echo "TARGET_FILE=360T7_Preloader_DDR4.bin" >> $GITHUB_ENV
+          elif grep -q "DDR3" preloader_raw.bin; then
+            echo "检测到 DDR3 类型固件"
+            mv preloader_raw.bin 360T7_Preloader_DDR3.bin
+            echo "TARGET_FILE=360T7_Preloader_DDR3.bin" >> $GITHUB_ENV
+          else
+            echo "未发现明确 DDR 标识，可能固件不完整或已加密"
+            mv preloader_raw.bin 360T7_Preloader_Unknown.bin
+            echo "TARGET_FILE=360T7_Preloader_Unknown.bin" >> $GITHUB_ENV
+          fi
+
+      - name: 上传提取结果
+        uses: actions/upload-artifact@v3
+        with:
+          name: Extracted-Preloader
+          path: ${{ env.TARGET_FILE }}
