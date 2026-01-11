@@ -53,16 +53,17 @@ jobs:
         cd lede
         git clone https://github.com/destan19/OpenAppFilter.git package/OpenAppFilter
 
-    - name: Enable OpenAppFilter packages
+    - name: Enable OpenAppFilter
       run: |
         cd lede
         echo "CONFIG_PACKAGE_luci-app-oaf=y" >> .config
         make defconfig
 
-    - name: Download sources
+    - name: Build toolchain and kernel (REQUIRED)
       run: |
         cd lede
-        make download -j$(nproc)
+        make toolchain/install -j$(nproc) V=s
+        make target/compile -j$(nproc) V=s
 
     - name: Build OpenAppFilter packages
       run: |
