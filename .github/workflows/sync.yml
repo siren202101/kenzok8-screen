@@ -22,7 +22,7 @@ jobs:
       - name: Initialize sparse-checkout
         run: |
           rm -rf upstream
-          git clone --depth=1 --filter=blob:none --sparse https://github.com/kenzok8/small-package.git upstream
+          git clone --depth=1 --filter=blob:none --sparse https://github.com/kenzok8/jell.git upstream
           cd upstream
           git sparse-checkout set luci-app-smartdns smartdns qbittorrent luci-app-passwall luci-app-passwall2 luci-app-socat
 
